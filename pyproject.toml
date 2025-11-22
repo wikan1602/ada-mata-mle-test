@@ -31,3 +31,15 @@ dev = [
 
 [tool.poetry.scripts]
 bsort = "ada_mata_mle.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+opencv-python-headless = "*"
+typer = "*"
+pyyaml = "*"
+ultralytics = "*" # Biarkan ultralytics cari versi terbaik
+wandb = "*"       # <--- GANTI JADI BINTANG (*) BIAR GAK ERROR
+
+# --- BAGIAN PENTING AGAR DOCKER GAK PENUH (CPU ONLY) ---
+torch = { version = ">=2.0.0", source = "pytorch-cpu" }
+torchvision = { version = ">=0.15.0", source = "pytorch-cpu" }
