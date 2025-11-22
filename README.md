@@ -42,7 +42,7 @@ Pengujian dilakukan pada CPU Laptop (Intel i5-1235U). Pada Raspberry Pi 5 (ARM C
 
 **Experiment Tracking:**
 Hasil training lengkap dapat dilihat di Weights & Biases:
-[🔗 Link ke Project WandB Kamu](https://wandb.ai/USERNAME_KAMU/ada-mata-bottle-cap) *(Ganti dengan link asli kamu)*
+[🔗 Link ke Project WandB Kamu](https://wandb.ai/wikan-project/ada-mata-bottle-cap)
 
 ---
 
@@ -115,3 +115,4 @@ ada_mata_mle/
 ```
 
 ## Author : Wikan Priambudi
+
