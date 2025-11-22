@@ -1,0 +1,30 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Env
+.venv/
+env/
+venv/
+
+# Poetry
+poetry.lock
+
+# IDE Settings
+.vscode/
+.idea/
+
+# Project Specific (JANGAN UPLOAD INI)
+datasets/
+runs/
+*.pt
+*.onnx
+dist/
+
+# Testing & Cache
+.pytest_cache/
+.coverage
+htmlcov/
