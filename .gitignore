@@ -1,23 +1,25 @@
 # .gitignore
 
-# Python
+# Python (File sampah cache)
 __pycache__/
 *.py[cod]
 *$py.class
+*.log
 
-# Virtual Env
+# Virtual Env (JANGAN UPLOAD folder ini, isinya bergiga-giga)
 .venv/
 env/
 venv/
 
-# Poetry
-poetry.lock
+# --- POETRY ---
+# poetry.lock  <-- SAYA HAPUS DARI SINI. INI WAJIB DI-UPLOAD.
 
 # IDE Settings
 .vscode/
 .idea/
+.DS_Store
 
-# Project Specific (JANGAN UPLOAD INI)
+# Project Specific (File Besar/Dataset - JANGAN UPLOAD)
 datasets/
 runs/
 *.pt
