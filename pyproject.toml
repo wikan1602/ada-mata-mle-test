@@ -29,9 +29,9 @@ pyyaml = "*"
 wandb = "*"
 ultralytics = "*"
 
-# Kunci Diet: Paksa Torch ambil dari link CPU di atas
-torch = { version = ">=2.0.0", source = "pytorch-cpu" }
-torchvision = { version = ">=0.15.0", source = "pytorch-cpu" }
+# --- KITA KUNCI KE VERSI STABIL (Supaya Linux & Windows sepakat) ---
+torch = { version = "2.4.1", source = "pytorch-cpu" }
+torchvision = { version = "0.19.1", source = "pytorch-cpu" }
 
 # --- DEPENDENCIES DEVELOPMENT (TESTING) ---
 [tool.poetry.group.dev.dependencies]
