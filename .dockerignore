@@ -1,0 +1,26 @@
+# .dockerignore
+
+# PENTING: Jangan bawa folder environment lokal!
+.venv
+venv
+env
+__pycache__
+
+# Jangan bawa folder git & settings editor
+.git
+.github
+.vscode
+.idea
+
+# Jangan bawa dataset & hasil training berat
+datasets
+runs
+
+# Jangan bawa file model berat (kita build code-nya aja)
+*.pt
+*.onnx
+
+# Cache testing
+.pytest_cache
+htmlcov
+.coverage
