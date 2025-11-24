@@ -1,8 +1,0 @@
-names:
-- light_blue
-- dark_blue
-- others
-nc: 3
-path: G:\My Drive\We Work The Talk\Ada Mata - Machine Learning Engineer\ada_mata_mle\datasets\bottle_cap
-train: kfold_configs\train_fold_0.txt
-val: kfold_configs\val_fold_0.txt

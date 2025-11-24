@@ -1,13 +1,13 @@
 # settings.yaml
 project_name: "ada-mata-bottle-cap"
-experiment_name: "cli_training_run" # Folder output kalau pakai CLI
+experiment_name: "production_yolov9t_fp16"
 
 dataset:
   path: "datasets/bottle_cap/data.yaml"
-  img_size: 320 # Sesuai hasil riset kita
+  img_size: 320
 
 train:
-  model_type: "yolov8n.pt"
+  model_type: "yolov9t.pt"  # <--- GANTI KE YOLOv9t
   epochs: 50
   batch_size: 8
   device: "cpu"
