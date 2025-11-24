@@ -28,7 +28,10 @@ typer = "*"
 pyyaml = "*"
 wandb = "*"
 ultralytics = "*"
-
+# --- TAMBAHKAN/UBAH BAGIAN INI ---
+# Kita kunci versi OpenVINO ke 2024 (Stabil) dan NNCF yang kompatibel
+openvino = ">=2024.0.0,<2025.0.0"
+nncf = ">=2.10.0,<2.13.0"
 # --- KITA KUNCI KE VERSI STABIL (Supaya Linux & Windows sepakat) ---
 torch = { version = "2.4.1", source = "pytorch-cpu" }
 torchvision = { version = "0.19.1", source = "pytorch-cpu" }

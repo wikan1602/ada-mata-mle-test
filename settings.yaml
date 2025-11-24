@@ -1,21 +1,18 @@
 # settings.yaml
 project_name: "ada-mata-bottle-cap"
-experiment_name: "cli_training_run"
+experiment_name: "cli_training_run" # Folder output kalau pakai CLI
 
-# Dataset Paths
 dataset:
-  path: "datasets/bottle_cap/data.yaml"  # Path ke data.yaml yang sudah kita buat di notebook
-  img_size: 320  # Kita kunci di 320 karena hasil riset Task 1
+  path: "datasets/bottle_cap/data.yaml"
+  img_size: 320 # Sesuai hasil riset kita
 
-# Training Hyperparameters
 train:
   model_type: "yolov8n.pt"
   epochs: 50
   batch_size: 8
-  device: "cpu" # Ubah ke 0 jika ada GPU, atau 'mps' jika Mac M1/M2
+  device: "cpu"
   learning_rate: 0.01
 
-# Inference Settings
 inference:
   confidence_threshold: 0.25
   output_dir: "runs/inference"
