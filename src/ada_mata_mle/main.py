@@ -1,7 +1,8 @@
-import typer
-import yaml
 import sys
 from pathlib import Path
+
+import typer
+import yaml
 from ultralytics import YOLO
 
 # Inisialisasi Aplikasi CLI
