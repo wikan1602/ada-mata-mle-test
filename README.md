@@ -1,118 +1,92 @@
-# Ada Mata - Machine Learning Engineer Take Home Test
-### Bottle Cap Detection System (YOLOv8 + ONNX Optimization)
+# 🥤 Bottle Cap Detection System (Edge Optimized)
 
-![CI/CD Status](https://github.com/wikan1602/ada-mata-mle-test/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
-![Docker](https://img.shields.io/badge/docker-available-blue)
+![CI/CD](https://github.com/wikan1602/ada-mata-mle-test/actions/workflows/ci_cd.yaml/badge.svg)
+![WandB](https://img.shields.io/badge/Experiment_Tracking-Weights_&_Biases-orange)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 
-## 📋 Project Overview
-Repository ini berisi solusi lengkap untuk tantangan **Machine Learning Engineer** dari Ada Mata. Sistem ini dirancang untuk mendeteksi tutup botol dan mengklasifikasikannya menjadi 3 kategori: **Light Blue**, **Dark Blue**, dan **Others**.
+> **Submission for Machine Learning Engineer Role at Ada Mata**
+> **Author:** Wikan Priambudi
 
-Solusi mencakup:
-1.  **Model Development:** Auto-labeling, Training YOLOv8n, dan Optimasi ke ONNX.
-2.  **ML Pipeline:** CLI Tool (`bsort`), Docker Containerization, dan CI/CD Pipeline.
+## 📋 Project Summary
 
----
+This project implements a real-time computer vision pipeline designed to detect and classify bottle caps into three categories: **Light Blue**, **Dark Blue**, and **Others**.
 
-## 🚀 Task 1: Model Development & Experimentation
+The core challenge was to engineer a solution capable of running on edge devices (specifically **Raspberry Pi 5**) with an extremely strict inference latency constraint of **5-10ms per frame** (100-200 FPS).
 
-### 1. Data Preprocessing (Auto-Labeling)
-Dataset awal hanya memiliki label kelas `0`. Saya melakukan analisis warna menggunakan ruang warna **HSV** untuk memisahkan kelas secara otomatis:
-- **Light Blue (0):** `Hue > 90` AND `Value > 88` (Bright)
-- **Dark Blue (1):** `Hue > 90` AND `Value <= 88` (Dark)
-- **Others (2):** `Hue < 90` (Orange/Green/Yellow)
+### 🎯 Key Results: The "Golden Ticket"
+After extensive experimentation comparing YOLOv8, v9, v10, and v11, the final selected model is **YOLOv8n (FP16 Optimized)** using OpenVINO Runtime.
 
-### 2. Model Selection & Optimization Strategy
-Tantangan utama adalah mencapai inferensi **5-10ms** pada Edge Device (Raspberry Pi 5).
-- **Base Model:** `yolov8n.pt` (Nano) dipilih karena arsitekturnya paling ringan.
-- **Optimization:** Mengkonversi model ke format **ONNX** (Open Neural Network Exchange).
-- **Resolution Trade-off:**
-    - Pada input `640x640`, kecepatan inferensi ~43ms (CPU).
-    - Saya menurunkan input ke **`320x320`** untuk meningkatkan kecepatan secara drastis hingga 4x lipat.
+| Metric | Result | Target Constraint | Status |
+| :--- | :--- | :--- | :--- |
+| **Model** | **YOLOv8n (FP16 OpenVINO)** | - | ✅ |
+| **Input Resolution** | **320x320** | - | ✅ |
+| **Inference Latency** | **~10.0 ms** (CPU) | 5-10 ms | ✅ |
+| **Accuracy (mAP@50)** | **92.0%** | High Accuracy | ✅ |
+| **Model Size** | **6.2 MB** | Lightweight | ✅ |
 
-### 3. Evaluation Results
-Pengujian dilakukan pada CPU Laptop (Intel i5-1235U). Pada Raspberry Pi 5 (ARM Cortex-A76), performa diharapkan setara atau lebih baik dengan optimasi ONNX Runtime.
+### 📊 Benchmark Analysis
 
-| Metric | Configuration (640px) | **Configuration (320px) [CHOSEN]** |
-| :--- | :---: | :---: |
-| **Inference Speed (CPU)** | ~43.34 ms | **~11.55 ms (🚀 ~86 FPS)** |
-| **mAP@50 (Accuracy)** | 98.6% | **93.28%** |
+![Trade-off Analysis](model_benchmark_chart.png)
+*(Figure 1: Accuracy vs. Latency trade-off. The green zone represents the strict <10ms requirement.)*
 
-> **Kesimpulan:** Penurunan resolusi input menyebabkan penurunan akurasi minor (~5%), namun memberikan peningkatan kecepatan 400%, yang krusial untuk memenuhi batasan *latency* pada edge device.
-
-**Experiment Tracking:**
-Hasil training lengkap dapat dilihat di Weights & Biases:
-[🔗 Link ke Project WandB Kamu](https://wandb.ai/wikan-project/ada-mata-bottle-cap)
+#### Comparative Results
+| Model Name | Accuracy (mAP@50) | Inference Time (ms) | Notes |
+| :--- | :--- | :--- | :--- |
+| **yolov8n_320_fp16** | **0.920** | **10 ms** | **🏆 SELECTED (Best Balance)** |
+| yolov8n_320_aug | 0.927 | 12 ms | Good candidate, slightly over limit |
+| yolov8n_320 | 0.752 | 24 ms | Baseline (without safe augmentation) |
+| yolov8n_640 | 0.981 | 124 ms | Too slow for edge |
+| yolo11n_320_fp16 | 0.995 | 39 ms | High accuracy, but 4x slower |
+| **yolov8n_256** | **0.931** | **35 ms** | **⚠️ Thermal Throttling Outlier** |
 
 ---
 
-## 🛠 Task 2: ML Pipeline & Installation
+## ⚠️ Critical Hardware Analysis: Thermal Throttling
 
-Project ini menggunakan **Poetry** untuk manajemen dependensi dan **Typer** untuk CLI.
+During the benchmarking phase on the development machine (simulating edge CPU load), a significant **Thermal Throttling** phenomenon was observed.
+
+* **Scenario:** The model `yolov8n_256` (smaller input) was tested while the device was hot (>70°C).
+* **Impact:** Inference latency spiked to **35ms**, which is significantly slower than the 320px model tested under optimal temperatures (12ms).
+* **Conclusion:** Passive cooling is **insufficient** for continuous real-time inference on devices like Raspberry Pi 5.
+
+> ** Deployment Recommendation:**
+> To guarantee the <10ms requirement in production, **Active Cooling (Fan/Heatsink) is MANDATORY** on the Raspberry Pi 5.
+
+---
+
+## 🛠️ Technical Approach (Task 1)
+
+### 1. Auto-Labeling Strategy
+The original dataset provided bounding boxes but lacked color classification. I implemented an automated **HSV Color Filtering** script to assign classes:
+* `0`: Light Blue (Hue range: 90-110)
+* `1`: Dark Blue (Hue range: 110-130)
+* `2`: Others
+* *Justification:* Automation reduces human error and allows for rapid dataset regeneration if thresholds change.
+
+### 2. "Safe" Augmentation
+Standard YOLO augmentation includes color jittering (changing hue/saturation). This is detrimental for this specific task as it confuses "Light Blue" with "Dark Blue".
+* **Action:** Disabled `hsv_h`, `hsv_s`, `hsv_v` augmentations during training.
+* **Result:** Accuracy jumped from **75.2%** to **92.7%** using this strategy.
+
+Full analysis is available in the [Model Development Notebook](./notebooks/01_model_development.ipynb).
+
+---
+
+## 🚀 Installation & Usage (Task 2)
+
+This project uses **Poetry** for dependency management and includes a CLI tool named `bsort`.
 
 ### Prerequisites
-- Python 3.11
-- Docker Desktop (Optional)
+* Python 3.11
+* Docker (Optional)
 
-### 1. Local Installation (Using Poetry)
+### 1. Installation
 ```bash
 # Clone repository
-git clone [https://github.com/USERNAME_KAMU/NAMA_REPO.git](https://github.com/USERNAME_KAMU/NAMA_REPO.git)
-cd NAMA_REPO
+git clone [https://github.com/](https://github.com/)wikan1602/ada-mata-mle.git
+cd ada-mata-mle
 
-# Install dependencies
+# Install using Poetry (Recommended)
 pip install poetry
 poetry install
-```
-### 2. Using the CLI (`bsort`)
-Program CLI `bsort` memiliki dua fitur utama:
-
-**A. Training Model**
-```bash
-poetry run bsort train --config settings.yaml
-```
-**B. Inference (Deteksi Gambar)**
-```bash
-poetry run bsort infer --config settings.yaml --image sample.jpg
-```
-## 🐳 Docker Usage
-Aplikasi ini sudah dibungkus dalam Docker Container (Debian Slim) dan dioptimalkan ukurannya (menggunakan PyTorch CPU version).
-
-### Build Image
-```bash
-docker build -t ada-mata-bsort .
-```
-## Run Container
-```bash
-# Menampilkan menu bantuan
-docker run --rm ada-mata-bsort --help
-
-# Menjalankan Inferensi (Mount folder lokal ke dalam docker)
-# Catatan: $(pwd) digunakan di Linux/Mac/PowerShell. Untuk CMD Windows ganti dengan %cd%
-docker run --rm -v $(pwd):/app ada-mata-bsort infer --config settings.yaml --image sample.jpg
-```
-## CI/CD Pipeline
-CI/CD Pipeline
-Repository ini terintegrasi dengan GitHub Actions yang secara otomatis menjalankan:
-### 1. Code Quality Check: Black (Formatting), Isort (Imports), Pylint (Linting).
-### 2. Unit Testing: Pytest untuk memvalidasi fungsi config dan CLI.
-### 3. Docker Build: Memastikan Dockerfile valid dan image berhasil dibangun tanpa error.
-
-## Project Structure
-## 📂 Project Structure
-```text
-ada_mata_mle/
-├── .github/workflows/  # CI/CD Configurations
-├── datasets/           # Dataset (Train/Val)
-├── notebooks/          # Jupyter Notebook (Eksperimen Task 1)
-├── src/
-│   └── ada_mata_mle/   # Source Code (CLI Tool)
-├── tests/              # Unit Tests
-├── Dockerfile          # Docker Configuration
-├── pyproject.toml      # Dependencies & Metadata
-├── settings.yaml       # Model Configuration
-└── README.md           # Documentation
-```
-
-## Author : Wikan Priambudi
-
