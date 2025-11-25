@@ -1,0 +1,9 @@
+# Ignore folder hasil generate Ultralytics/WandB saat eksperimen
+runs/
+wandb/
+__pycache__/
+.ipynb_checkpoints/
+
+# Ignore model yang mungkin kesimpan di sini
+*.pt
+*.onnx

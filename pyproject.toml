@@ -1,45 +1,59 @@
 [tool.poetry]
 name = "ada-mata-mle"
 version = "0.1.0"
-description = "Bottle Cap Detector"
+description = "Edge-Optimized Bottle Cap Detector (YOLOv8 + OpenVINO)"
 authors = ["wikan1602 <wikanpriambudi@gmail.com>"]
 readme = "README.md"
-packages = [{include = "ada_mata_mle", from = "src"}]
+# PENTING: Ini agar folder src/bsort terbaca sebagai package
+packages = [{include = "bsort", from = "src"}]
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-# --- SCRIPT CLI ---
+# --- CLI ENTRY POINT ---
 [tool.poetry.scripts]
-bsort = "ada_mata_mle.main:app"
+bsort = "bsort.main:app"
 
-# --- SOURCE PENTING (CPU ONLY) ---
+# --- SOURCE PYTORCH CPU (Agar Docker Image Kecil) ---
 [[tool.poetry.source]]
 name = "pytorch-cpu"
 url = "https://download.pytorch.org/whl/cpu"
 priority = "explicit"
 
-# --- DEPENDENCIES UTAMA ---
+# --- MAIN DEPENDENCIES ---
 [tool.poetry.dependencies]
 python = "^3.11"
-opencv-python-headless = "*"
-typer = "*"
+
+# 1. Core Logic
+ultralytics = "^8.3"         # Versi terbaru untuk stabilitas export
+opencv-python-headless = "*" # Versi headless (tanpa GUI) untuk server/docker
 pyyaml = "*"
+
+# 2. CLI Interface
+# KITA KUNCI KE VERSI BARU AGAR TIDAK CRASH (Error make_metavar)
+typer = { version = "0.9.0", extras = ["all"] }
+click = "8.1.7"
+
+# 3. Experiment Tracking
 wandb = "*"
-ultralytics = "*"
-# --- TAMBAHKAN/UBAH BAGIAN INI ---
-# Kita kunci versi OpenVINO ke 2024 (Stabil) dan NNCF yang kompatibel
+
+# 4. Edge Deployment & Export
+# ONNX wajib ada sebagai format perantara sebelum ke OpenVINO
+onnx = "*"
 openvino = ">=2024.0.0,<2025.0.0"
 nncf = ">=2.10.0,<2.13.0"
-# --- KITA KUNCI KE VERSI STABIL (Supaya Linux & Windows sepakat) ---
+
+# 5. Deep Learning Framework (CPU Only)
+# Kita kunci versi spesifik agar reproducible
 torch = { version = "2.4.1", source = "pytorch-cpu" }
 torchvision = { version = "0.19.1", source = "pytorch-cpu" }
 
-# --- DEPENDENCIES DEVELOPMENT (TESTING) ---
+# --- DEVELOPMENT & TESTING ---
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
 pylint = "*"
 black = "*"
 isort = "*"
 jupyter = "*"
+ipykernel = "*" # Tambahan agar kernel notebook terdeteksi

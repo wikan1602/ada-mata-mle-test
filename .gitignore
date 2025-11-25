@@ -1,32 +1,48 @@
-# .gitignore
-
-# Python (File sampah cache)
+# --- PYTHON STANDARD ---
 __pycache__/
 *.py[cod]
 *$py.class
 *.log
+.ipynb_checkpoints/
 
-# Virtual Env (JANGAN UPLOAD folder ini, isinya bergiga-giga)
+# --- VIRTUAL ENV (WAJIB IGNORE) ---
 .venv/
 env/
 venv/
 
-# --- POETRY ---
-# poetry.lock  <-- SAYA HAPUS DARI SINI. INI WAJIB DI-UPLOAD.
-
-# IDE Settings
+# --- IDE SETTINGS ---
 .vscode/
 .idea/
 .DS_Store
 
-# Project Specific (File Besar/Dataset - JANGAN UPLOAD)
-datasets/
-runs/
+# --- DATASETS ---
+# Kita ignore isinya, tapi folder 'datasets' tetap ada di repo
+datasets/*
+!datasets/.gitkeep
+!datasets/data.yaml
+
+# --- MODEL ARTIFACTS (BERAT!) ---
+# Jangan upload model hasil training ke Github (Limit github cuma 100MB)
 *.pt
 *.onnx
-dist/
+*.xml
+*.bin
+*.tflite
+models/
+weights/
 
-# Testing & Cache
+# --- EXPERIMENT LOGS (SAMPAH) ---
+# Folder ini digenerate otomatis oleh Ultralytics & WandB
+runs/
+wandb/
+eval/
+
+# --- DISTRIBUTION & BUILD ---
+dist/
+build/
+*.egg-info/
+
+# --- TESTING ---
 .pytest_cache/
 .coverage
 htmlcov/

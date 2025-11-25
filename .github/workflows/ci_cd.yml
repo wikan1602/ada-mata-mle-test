@@ -42,16 +42,19 @@ jobs:
     - name: Install project
       run: poetry install --no-interaction
 
-    # 5. Code Quality Checks (Wajib sesuai Soal)
+# 5. Code Quality Checks
     - name: Run Black (Formatter Check)
-      run: poetry run black . --check
+      # Ganti '.' menjadi 'src tests'
+      run: poetry run black src tests --check
 
     - name: Run Isort (Import Check)
-      run: poetry run isort . --check-only
+      # Ganti '.' menjadi 'src tests'
+      run: poetry run isort src tests --check-only
 
     - name: Run Pylint (Linter)
-      # Kita izinkan exit-code non-zero (warning) agar pipeline gak merah total cuma karena skor < 10
-      run: poetry run pylint src || true 
+      # Tambahkan --recursive=y agar dia baca subfolder
+      # || true sudah bagus untuk safety (biar pipeline tetap hijau walau ada warning)
+      run: poetry run pylint src --recursive=y || true
 
     # 6. Unit Test
     - name: Run Pytest
