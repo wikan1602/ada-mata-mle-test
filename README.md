@@ -69,7 +69,7 @@ Standard YOLO augmentation includes color jittering (changing hue/saturation). T
 * **Action:** Disabled `hsv_h`, `hsv_s`, `hsv_v` augmentations during training.
 * **Result:** Accuracy jumped from **75.2%** to **92.7%** using this strategy.
 
-Full analysis is available in the [Model Development Notebook](./notebooks/01_model_development.ipynb).
+Full analysis is available in the [Model Development Notebook](./notebooks/02_model_development.ipynb).
 
 ---
 
@@ -84,7 +84,7 @@ This project uses **Poetry** for dependency management and includes a CLI tool n
 ### 1. Installation
 ```bash
 # Clone repository
-git clone [https://github.com/](https://github.com/)wikan1602/ada-mata-mle.git
+git clone [https://github.com/](https://github.com/wikan1602/ada-mata-mle.git)
 cd ada-mata-mle
 
 # Install using Poetry (Recommended)
@@ -97,8 +97,8 @@ Train the model:
 ``` bash
 # Runs training pipeline -> Validation -> Exports to OpenVINO FP16
 poetry run bsort train --config configs/settings.yaml
-Run Inference:
 ```
+Run Inference:
 ``` bash
 # Runs inference on a single image using the exported model
 poetry run bsort infer --image datasets/raw/sample.jpg
