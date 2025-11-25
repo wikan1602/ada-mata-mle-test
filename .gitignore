@@ -16,10 +16,11 @@ venv/
 .DS_Store
 
 # --- DATASETS ---
-# Kita ignore isinya, tapi folder 'datasets' tetap ada di repo
-datasets/*
-!datasets/.gitkeep
-!datasets/data.yaml
+# Kita HANYA ignore folder raw (sumber mentah)
+datasets/raw/
+
+# Folder datasets/bottle_cap (hasil olahan) BOLEH di-upload
+!datasets/bottle_cap/
 
 # --- MODEL ARTIFACTS (BERAT!) ---
 # Jangan upload model hasil training ke Github (Limit github cuma 100MB)

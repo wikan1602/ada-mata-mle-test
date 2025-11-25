@@ -1,0 +1,7 @@
+names:
+  0: light_blue
+  1: dark_blue
+  2: others
+path: g:\My Drive\We Work The Talk\Ada Mata - Machine Learning Engineer\ada_mata_mle\datasets\bottle_cap
+train: train/images
+val: valid/images
