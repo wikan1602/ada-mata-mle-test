@@ -1,0 +1,28 @@
+{
+  "os": "Windows-10-10.0.26200-SP0",
+  "python": "CPython 3.11.9",
+  "startedAt": "2025-11-25T02:33:15.147224Z",
+  "program": "g:\\My Drive\\We Work The Talk\\Ada Mata - Machine Learning Engineer\\ada_mata_mle\\notebooks\\01_data_exploration.ipynb",
+  "codePath": "g:\\My Drive\\We Work The Talk\\Ada Mata - Machine Learning Engineer\\ada_mata_mle\\notebooks\\01_data_exploration.ipynb",
+  "codePathLocal": "01_data_exploration.ipynb",
+  "git": {
+    "remote": "https://github.com/wikan1602/ada-mata-mle-test.git",
+    "commit": "9559432b6b69cf4b2718a4d12905560cfb771893"
+  },
+  "email": "wikanpriambudi@gmail.com",
+  "root": "g:\\My Drive\\We Work The Talk\\Ada Mata - Machine Learning Engineer\\ada_mata_mle\\notebooks",
+  "host": "Wikan",
+  "executable": "c:\\Users\\LENOVO\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\ada-mata-mle-3IEznrPG-py3.11\\Scripts\\python.exe",
+  "cpu_count": 10,
+  "cpu_count_logical": 12,
+  "disk": {
+    "/": {
+      "total": "214748364800",
+      "used": "109492654080"
+    }
+  },
+  "memory": {
+    "total": "16890978304"
+  },
+  "writerId": "ydmt5v28d1enmptxpqwb9i2vmj9wg8q7"
+}
