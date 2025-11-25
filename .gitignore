@@ -36,6 +36,8 @@ weights/
 runs/
 wandb/
 eval/
+.ipynb_checkpoints/
+*.ipynb_checkpoints
 
 # --- DISTRIBUTION & BUILD ---
 dist/
