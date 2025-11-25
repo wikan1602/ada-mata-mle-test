@@ -93,15 +93,17 @@ poetry install
 ```
 ### 2. CLI Commands (bsort)
 
-Train the model:
-``` bash
+**Train the model:**
+```bash
 # Runs training pipeline -> Validation -> Exports to OpenVINO FP16
+# Note: Dataset is already included in datasets/bottle_cap/
 poetry run bsort train --config configs/settings.yaml
 ```
 Run Inference:
 ``` bash
-# Runs inference on a single image using the exported model
-poetry run bsort infer --image datasets/raw/sample.jpg
+# Run inference on a validation image included in the dataset
+# Replace 'filename.jpg' with an actual file from the directory
+poetry run bsort infer --image datasets/bottle_cap/valid/images/filename.jpg
 ```
 
 ### 3. Docker Support
@@ -111,13 +113,16 @@ Build and run the containerized application (Reproducible Environment):
 docker build -t bsort-app .# Run Unit Tests inside Docker
 docker run bsort-app pytest
 ```
+
 ---
 ## 🧪 CI/CD & Quality Assurance
+---
 This repository uses Github Actions to ensure production-grade code quality:
-Static Analysis: pylint (Score: 10/10), black (Formatter), isort (Import sorting).
-Testing: pytest for unit tests logic.
-Build Verification: Verifies Docker image builds successfully on every push.
+
+* **Static Analysis:** `pylint` (Score: 10/10), `black` (Formatter), `isort` (Import sorting).
+* **Testing:** `pytest` for unit tests logic.
+* **Build Verification:** Verifies Docker image builds successfully on every push.
 ---
 ## 📈 Experiment Tracking
 All training runs, metric comparisons, and system metrics are publicly accessible via Weights & Biases:
-👉 **[View Public Dashboard Here](MASUKKAN_LINK_WANDB_KAMU_DISINI)**
+👉 **[View Public Dashboard Here](https://wandb.ai/wikan-project/Bottle-Cap-Detection/workspace?nw=nwuserwikan)**
