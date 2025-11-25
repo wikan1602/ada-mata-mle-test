@@ -90,3 +90,34 @@ cd ada-mata-mle
 # Install using Poetry (Recommended)
 pip install poetry
 poetry install
+```
+### 2. CLI Commands (bsort)
+
+Train the model:
+``` bash
+# Runs training pipeline -> Validation -> Exports to OpenVINO FP16
+poetry run bsort train --config configs/settings.yaml
+Run Inference:
+```
+``` bash
+# Runs inference on a single image using the exported model
+poetry run bsort infer --image datasets/raw/sample.jpg
+```
+
+### 3. Docker Support
+Build and run the containerized application (Reproducible Environment):
+``` bash
+# Build Image
+docker build -t bsort-app .# Run Unit Tests inside Docker
+docker run bsort-app pytest
+```
+---
+## 🧪 CI/CD & Quality Assurance
+This repository uses Github Actions to ensure production-grade code quality:
+Static Analysis: pylint (Score: 10/10), black (Formatter), isort (Import sorting).
+Testing: pytest for unit tests logic.
+Build Verification: Verifies Docker image builds successfully on every push.
+---
+## 📈 Experiment Tracking
+All training runs, metric comparisons, and system metrics are publicly accessible via Weights & Biases:
+👉 **[View Public Dashboard Here](MASUKKAN_LINK_WANDB_KAMU_DISINI)**
