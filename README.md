@@ -1,7 +1,7 @@
 # 🥤 Bottle Cap Detection System (Edge Optimized)
 
 ![Python](https://img.shields.io/badge/python-3.11-blue)
-![CI/CD](https://github.com/wikan1602/ada-mata-mle-test/actions/workflows/ci_cd.yaml/badge.svg)
+[![Ada Mata CI/CD Pipeline](https://github.com/wikan1602/ada-mata-mle-test/actions/workflows/ci_cd.yml/badge.svg?branch=main)](https://github.com/wikan1602/ada-mata-mle-test/actions/workflows/ci_cd.yml)
 ![WandB](https://img.shields.io/badge/Experiment_Tracking-Weights_&_Biases-orange)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 
@@ -84,7 +84,7 @@ This project uses **Poetry** for dependency management and includes a CLI tool n
 ### 1. Installation
 ```bash
 # Clone repository
-git clone [https://github.com/](https://github.com/wikan1602/ada-mata-mle.git)
+git clone https://github.com/wikan1602/ada-mata-mle.git
 cd ada-mata-mle
 
 # Install using Poetry (Recommended)
